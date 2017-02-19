@@ -3,9 +3,9 @@
         <div v-for="row in rowsCount" class="row">
             <div v-for="col in colsCount" class="cell">
                 <span class="index">
-                    {{rowsCount}} / {{colsCount}}
+                    {{row}} / {{col}}
                 </span>
-                <tile-editor :tileData="getTileData()" :row="rowsCount" :col="colsCount"></tile-editor>
+                <tile-editor :tileData="getTileData(row, col)" :map="map" :row="row" :col="col"></tile-editor>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
                 required: true
             },
             map: {
-                type: Array,
+                type: Object,
                 required: true
             }
         },
@@ -36,11 +36,10 @@
         },
         methods: {
             getTileData (row, col) {
-                if (this.map[row] && this.map[row][col]) {
-                    return this.map[row][col];
-                } else {
-                    return cfg.tileData;
-                }
+                let key = row + '.' + col,
+                    result = this.map[key] ? this.map[key] : cfg.getTileData();
+
+                return result;
             }
         }
     };

@@ -28,73 +28,75 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       rowsCount: 0,
       colsCount: 0,
-      map: []
+      map: {}
     }
   },
   created () {
     // --
     EventBus.$on('changeRowsCount', (newRowsCount) => {
-      /*if (this.rowsCount < newRowsCount) {
-        this.map.push(createArray(newRowsCount, cfg.tileData));
-      }
-      else if (this.rowsCount > newRowsCount) {
-        this.map.pop();
-      }*/
       this.rowsCount = newRowsCount;
     });
     // --
     EventBus.$on('changeColsCount', (newColsCount) => {
-
-      /*if (this.colsCount < newColsCount) {
-        // Добавили столбец
-        //this.map.push(createArray(newColsCount, cfg.tileData));
-        addColumn(this.map, newColsCount, cfg.tileData);
-      }
-      else if (this.colsCount > newColsCount) {
-        // Удалили столбец
-        removeColumn(this.map, cfg.tileData);
-      }*/
-
       this.colsCount = newColsCount;
     });
     // --
     EventBus.$on('toggleRespawn', (data) => {
-      console.log('toggleRespawn: ', data, this.map/*[data.row][data.col]*/);
+      var key = data.row + '.' + data.col,
+          map = this.map;
+
+      if (!map[key]) {
+        map[key] = cfg.getTileData();
+      }
+
+      map[key].respawn.isset = !map[key].respawn.isset;
+
+      this.map = { ...map };
     });
+    // --
+    EventBus.$on('toggleStatic', (data) => {
+      var key = data.row + '.' + data.col,
+          map = this.map;
+
+      if (!map[key]) {
+        map[key] = cfg.getTileData();
+      }
+
+      map[key].static = !map[key].static;
+
+      this.map = { ...map };
+    });
+    // --
+    EventBus.$on('changeSurface', (data) => {
+      var key = data.row + '.' + data.col,
+          map = this.map;
+
+      if (!map[key]) {
+        map[key] = cfg.getTileData();
+      }
+
+      map[key].surface = data.surface;
+
+      this.map = { ...map };
+    });
+    // --
+    EventBus.$on('changeTeamId', (data) => {
+      var key = data.row + '.' + data.col,
+          map = this.map;
+
+      if (!map[key]) {
+        map[key] = cfg.getTileData();
+      }
+
+      map[key].respawn.teamId = +data.teamId;
+
+      this.map = { ...map };
+    });
+
+
+    //
   }
 }
-
-/**
- * Создаст массив заданной длины ln и заполнит его объектами defaultModel
- */
-/*function createArray (ln, defaultModel) {
-  let arr = [];
-
-  for (let i = 0; i < ln; i++) {
-    arr.push(defaultModel);
-  }
-  return arr;
-}*/
-
-/*function addColumn (map, colsCount, defaultModel) {
-  let ln = map.length,
-      colLn = 0;
-
-  for (let i = 0; i < ln; i++) {
-    colLn = colsCount - map[i].length;
-    for (let j = 0; j < colLn; j++) {
-      map[i].push(defaultModel);
-    }
-  }
-}
-
-function removeColumn (map, defaultModel) {
-  let ln = map.length;
-
-  for (let i = 0; i < ln; i++) {
-    map[i].pop();
-  }
-}*/
 
 </script>
 

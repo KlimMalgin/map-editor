@@ -11,21 +11,7 @@
 
 <script>
     export default {
-        name: 'layout',
-        props: {
-            /*rowsCount: {
-                type: Number,
-                required: true
-            },
-            colsCount: {
-                type: Number,
-                required: true
-            }*/
-        },
-        //components: {},
-        data () {
-            return {};
-        }
+        name: 'layout'
     };
 </script>
 
