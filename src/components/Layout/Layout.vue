@@ -40,6 +40,7 @@
         width: 100%;
     }
     .sidebar {
+        background-color: #ccc;
         display: table-cell;
         min-width: 250px;
         width: 250px;

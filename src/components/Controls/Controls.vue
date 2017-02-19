@@ -1,12 +1,14 @@
 <template>
     <div>
-        <button @click="addRow">addRow</button>
-        <button @click="removeRow">removeRow</button>
-        <br />
-        <span>/</span>
-        <br />
-        <button @click="addCol">addCol</button>
-        <button @click="removeCol">removeCol</button>
+        <span>Rows ({{rowsCount}})</span>
+        <br>
+        <button class="btn" @click="addRow">+</button>
+        <button class="btn" @click="removeRow">-</button>
+        <hr>
+        <span>Columns ({{colsCount}})</span>
+        <br>
+        <button class="btn" @click="addCol">+</button>
+        <button class="btn" @click="removeCol">-</button>
     </div>
 </template>
 
@@ -48,5 +50,9 @@
 </script>
 
 <style scoped>
-
+.btn {
+    cursor: pointer;
+    padding: 10px 14px;
+    font-size: 20px;
+}
 </style>

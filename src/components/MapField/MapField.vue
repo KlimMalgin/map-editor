@@ -2,8 +2,10 @@
     <div class="map-field">
         <div v-for="row in rowsCount" class="row">
             <div v-for="col in colsCount" class="cell">
-                {{row}} / {{col}}
-                <tile-editor></tile-editor>
+                <span class="index">
+                    {{rowsCount}} / {{colsCount}}
+                </span>
+                <tile-editor :tileData="getTileData()" :row="rowsCount" :col="colsCount"></tile-editor>
             </div>
         </div>
     </div>
@@ -11,6 +13,8 @@
 
 <script>
     import TileEditor from './components/TileEditor.vue';
+    import cfg from '../../config';
+
     export default {
         name: 'map-field',
         props: {
@@ -21,13 +25,23 @@
             colsCount: {
                 type: Number,
                 required: true
+            },
+            map: {
+                type: Array,
+                required: true
             }
         },
         components: {
             TileEditor
         },
-        data () {
-            return {};
+        methods: {
+            getTileData (row, col) {
+                if (this.map[row] && this.map[row][col]) {
+                    return this.map[row][col];
+                } else {
+                    return cfg.tileData;
+                }
+            }
         }
     };
 </script>
@@ -42,9 +56,16 @@
     }
 
     .cell {
+        text-align: left;
         display: table-cell;
         border: 1px solid #ccc;
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
+    }
+
+    .index {
+        vertical-align: top;
+        font-size: 10px;
+        color: #999;
     }
 </style>
