@@ -9,6 +9,9 @@
         <br>
         <button class="btn" @click="addCol">+</button>
         <button class="btn" @click="removeCol">-</button>
+
+        <br>
+        <slot name="dump"></slot>
     </div>
 </template>
 

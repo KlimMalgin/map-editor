@@ -4,7 +4,10 @@
 
     <layout>
       <map-field slot="content" :rowsCount="rowsCount" :colsCount="colsCount" :map="map"></map-field>
-      <controls slot="sidebar" :rowsCount="rowsCount" :colsCount="colsCount"></controls>
+      <controls slot="sidebar" :rowsCount="rowsCount" :colsCount="colsCount">
+        <button slot="dump" class="btn-dump" @click="dumpObject()">Dump</button>
+        <button slot="dump" class="btn-dump" @click="dumpString()">Dump Stringify</button>
+      </controls>
     </layout>
   </div>
 </template>
@@ -25,10 +28,51 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       rowsCount: 0,
       colsCount: 0,
       map: {}
+    }
+  },
+  methods: {
+    dump () {
+      let key = '',
+          item = {},
+          result = [];
+
+      for (let row = 0; row <= this.rowsCount; row++) { result.push([]); }
+
+      for (let row = 1; row <= this.rowsCount; row++) {
+        if (!result[row]) { result.push([]); }
+
+        for (let col = 1; col <= this.colsCount; col++) {
+          key = row + '.' + col;
+
+          if (this.map[key]) {
+            item = this.map[key];
+          } else {
+            item = cfg.getTileData();
+          }
+
+          if (!item.respawn.isset) {
+            delete item.respawn;
+          }
+
+          if (!result[row][col]) {
+            result[row].push(item);
+          } else {
+            result[row][col] = item;
+          }
+
+        }
+      }
+
+      return result;
+    },
+    dumpObject () {
+      console.log(this.dump());
+    },
+    dumpString () {
+      console.log(JSON.stringify(this.dump()));
     }
   },
   created () {
@@ -123,4 +167,10 @@ h1, h2 {
 a {
   color: #42b983;
 }
+
+.btn-dump {
+  margin: 15px 0 0 0;
+  padding: 10px;
+}
+
 </style>
