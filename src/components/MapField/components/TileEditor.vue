@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="surface">
         <input type="text" name="surface" placeholder="surface" size="10"  v-model="surface" />
         <input type="checkbox" :checked="static" :id="generateStaticId" @click="toggleStatic" /><label :for="generateStaticId">Static</label>
         <br>
@@ -70,7 +70,7 @@
             },
 
             isset () {
-                return this.tileData.respawn.isset;
+                return !!(this.tileData.respawn ? this.tileData.respawn.isset : null);
             },
 
             item () {
@@ -103,4 +103,17 @@
 label {
     font-size: 12px;
 }
+
+.ground {
+    background-color: rgb(162, 161, 166);
+}
+
+.wall {
+    background-color: rgb(73, 128, 195);
+}
+
+.respawn {
+    background-color: rgb(5, 44, 75);
+}
+
 </style>

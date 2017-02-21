@@ -7,6 +7,11 @@
       <controls slot="sidebar" :rowsCount="rowsCount" :colsCount="colsCount">
         <button slot="dump" class="btn-dump" @click="dumpObject()">Dump</button>
         <button slot="dump" class="btn-dump" @click="dumpString()">Dump Stringify</button>
+        <div slot="load-map">
+          <textarea v-model="textareaMapData" placeholder="Load map data here" class="load-map"></textarea>
+          <button class="btn-dump" @click="loadMapData()">Load</button>
+        </div>
+
       </controls>
     </layout>
   </div>
@@ -28,6 +33,7 @@ export default {
   },
   data () {
     return {
+      textareaMapData: [],
       rowsCount: 0,
       colsCount: 0,
       map: {}
@@ -53,7 +59,7 @@ export default {
             item = cfg.getTileData();
           }
 
-          if (!item.respawn.isset) {
+          if (item.respawn && !item.respawn.isset) {
             delete item.respawn;
           }
 
@@ -73,6 +79,24 @@ export default {
     },
     dumpString () {
       console.log(JSON.stringify(this.dump()));
+    },
+    loadMapData () {
+      let textareaMapData = JSON.parse(this.textareaMapData),
+          rowLn = textareaMapData.length,
+          colLn = textareaMapData[0].length,
+          map = this.map;
+//debugger;
+      for (let row = 0; row < rowLn; row++) {
+        for (let col = 0; col < colLn; col++) {
+          map[(row+1) + '.' + (col+1)] = textareaMapData[row][col];
+        }
+      }
+
+      this.map = { ...map };
+
+      this.rowsCount = rowLn;
+      this.colsCount = colLn;
+
     }
   },
   created () {
@@ -171,6 +195,11 @@ a {
 .btn-dump {
   margin: 15px 0 0 0;
   padding: 10px;
+}
+
+.load-map {
+  width: 220px;
+  height: 110px;
 }
 
 </style>

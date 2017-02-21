@@ -12,6 +12,9 @@
 
         <br>
         <slot name="dump"></slot>
+        <hr>
+        <slot name="load-map"></slot>
+
     </div>
 </template>
 
